@@ -64,6 +64,8 @@ It is absolutely important that a dataloader that yields a tuple of (image, mask
 
 The argument `disable_progress` can be set to True if you wish to disable the progress bar.
 
+The output tensor contains the predicted masks for each image in the batch. The activation function applied depends on the number of classes predicted by the model. If the model predicts 1 class, then a `sigmoid` activation is applied. If the model predicts more than 1 class, then a `softmax` activation is applied. Resulting in a `ndarray` of shape `(num_images, num_classes, height, width)`.
+
 ### Single Image Prediction
 
 For predicting a single image, you can use the `predict_image` method inherited from `BaseModel`.
@@ -74,6 +76,10 @@ prediction = custom_model.predict_image(image)
 
 The `image` argument should be a PyTorch tensor of shape (channels, height, width).
 
+The output tensor contains the predicted mask for the image. The activation function applied depends on the number of classes predicted by the model. If the model predicts 1 class, then a `sigmoid` activation is applied. If the model predicts more than 1 class, then a `softmax` activation is applied. Resulting in a `ndarray` of shape `(num_classes, height, width)`.
+
 ## Example
 
-(TBD - You can fill in this section later)
+
+
+

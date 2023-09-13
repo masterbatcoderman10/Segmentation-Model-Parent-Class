@@ -39,7 +39,10 @@ class BaseModel():
             for images, _ in tqdm(dataloader, disable=disable_progress):
                 images = images.to(self.device)
                 outputs = self(images)
-                outputs = torch.nn.functional.softmax(outputs, dim=1)
+                # Infer how many classes were predicted, if not 1 then use softmax else use sigmoid
+                num_classes = outputs.shape[1]
+                outputs = torch.nn.functional.softmax(
+                    outputs, dim=1) if num_classes != 1 else torch.nn.functional.sigmoid(outputs)
                 predictions.append(outputs.permute(0, 2, 3, 1))
             predictions = torch.cat(predictions, dim=0)
 
@@ -72,7 +75,9 @@ class BaseModel():
             image = image.unsqueeze(0)
             image = image.to(self.device)
             output = self(image)
-            output = torch.nn.functional.softmax(output, dim=1)
+            num_classes = output.shape[1]
+            output = torch.nn.functional.softmax(output, dim=1) if num_classes != 1 else torch.nn.functional.sigmoid(
+                output)
             output = output.detach().cpu().numpy()
             output = np.transpose(output, (0, 2, 3, 1))
             output = np.squeeze(output, axis=0)
