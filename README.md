@@ -80,6 +80,7 @@ The output tensor contains the predicted mask for the image. The activation func
 
 ## Example
 
+Check out example.ipynb for a working example of how to use this class. In this example the base model is used to generate segmentation maskes for both single images, and all images in a dataset, using a toy model and toy dataset.
 
 
 
